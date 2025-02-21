@@ -1,16 +1,13 @@
-import {createTicket} from '../../../services/tickets';
+
+
+import { getTickets } from "../../../services/tickets";
 
 export default async (req, res) => {
-    const { 
-        description,
-        id_user: idUser,
-    } = req.body;
+    console.log({query: req.query});
+    const { idUser, page } = req.query;
 
     try {
-        const { error, message, data } = await createTicket({
-            description,
-            idUser,
-        });
+        const { error, message, data } = await getTickets({ filters: { idUser } , page });
 
         const code = error ? 400 : 200;
 
@@ -23,9 +20,8 @@ export default async (req, res) => {
         console.log({error});
         return res.status(500).send({
             error: true,
-            message: 'An error occurred when creating the ticket',
+            message: 'An error occurred when retrieving the tickets',
         });
     }
-};
 
-
+}

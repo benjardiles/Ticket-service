@@ -59,6 +59,33 @@ Ticket.getById = async ({ idTicket }) =>
         },
     });
 
+Ticket.getTickets = async ({ idUser,status,offset,limit }) =>{
+    const where = {
+
+        ...idUser && { id_user: idUser },
+        ...status && { status },
+
+
+    };
+    const count = await Ticket.count({
+        where,
+    });
+    
+    const rows = await Ticket.findAll({
+        where,
+        offset: offset || undefined,
+        limit: limit || undefined,
+        
+    });
+    return {
+        count,
+        rows,
+    };
+}
+
+
+
+
 //remove ticket
 
 
