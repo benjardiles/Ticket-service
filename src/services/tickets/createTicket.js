@@ -18,7 +18,7 @@ export default function makeCreateTicket({
                 message: 'Ticket created successfully',
                 data: {
                     idTicket: newTicket.id_ticket,
-                    description: newTicket.description,
+                     description: newTicket.description,
                     idUser: newTicket.id_user
                 }
             }

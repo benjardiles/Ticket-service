@@ -59,13 +59,10 @@ Ticket.getById = async ({ idTicket }) =>
         },
     });
 
-Ticket.getTickets = async ({ idUser,status,offset,limit }) =>{
+Ticket.getTickets = async ({ idUser, status, offset, limit }) => {
     const where = {
-
         ...idUser && { id_user: idUser },
         ...status && { status },
-
-
     };
     const count = await Ticket.count({
         where,
@@ -75,18 +72,33 @@ Ticket.getTickets = async ({ idUser,status,offset,limit }) =>{
         where,
         offset: offset || undefined,
         limit: limit || undefined,
-        
     });
     return {
         count,
         rows,
     };
-}
+};
 
+// Nueva función para actualizar el estado del ticket
+Ticket.updateTicketStatus = async (idTicket, status) => {
+    // Convertir a mayúsculas para que coincida con el ENUM
+    const normalizedStatus = status.toUpperCase();  
 
+    // Verificar si el estado es válido
+    const validStatuses = ["OPEN", "IN_PROGRESS", "CLOSED"];
+    if (!validStatuses.includes(normalizedStatus)) {
+        return { error: true, message: "Invalid status value" };
+    }
 
+    const ticket = await Ticket.findByPk(idTicket);
+    if (!ticket) {
+        return { error: true, message: "Ticket not found" };
+    }
 
-//remove ticket
+    ticket.status = normalizedStatus;
+    await ticket.save();
 
+    return { error: false, message: "Ticket status updated successfully", data: ticket };
+};
 
 export default Ticket;
