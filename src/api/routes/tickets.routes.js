@@ -6,6 +6,7 @@ import deleteTicket from "../controllers/tickets/deleteTicket";
 import getTickets from "../controllers/tickets/getTickets";
 import UpdateTicketStatus from "../controllers/tickets/UpdateTicketStatus";
 
+
 const router = express.Router();
 
 
@@ -31,5 +32,6 @@ router.put(
     '/:idTicket',
     UpdateTicketStatus
 )
+
 
 export default router;
