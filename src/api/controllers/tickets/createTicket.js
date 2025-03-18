@@ -3,12 +3,14 @@ import {createTicket} from '../../../services/tickets';
 export default async (req, res) => {
     const { 
         description,
+        file_path: filePath,
         id_user: idUser,
     } = req.body;
 
     try {
         const { error, message, data } = await createTicket({
             description,
+            filePath,
             idUser,
         });
 

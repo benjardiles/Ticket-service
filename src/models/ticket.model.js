@@ -39,9 +39,10 @@ const Ticket = db.sequelize.define("ticket", {
     timestamps: true,
 });
 
-Ticket.createTicket = async ({ description, idUser }) =>
+Ticket.createTicket = async ({ description, filePath, idUser }) =>
     Ticket.create({
         description,
+        file_path: filePath,
         id_user: idUser,
     });
 

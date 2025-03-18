@@ -3,6 +3,7 @@ export default function makeCreateTicket({
 }) {
     return async function createTicket({
         description,
+        filePath,
         idUser
     })
 
@@ -10,6 +11,7 @@ export default function makeCreateTicket({
         try {
             const newTicket = await Ticket.createTicket({
                 description,
+                filePath,
                 idUser
             })
 
@@ -19,6 +21,7 @@ export default function makeCreateTicket({
                 data: {
                     idTicket: newTicket.id_ticket,
                      description: newTicket.description,
+                     filePath: newTicket.file_path,
                     idUser: newTicket.id_user
                 }
             }
