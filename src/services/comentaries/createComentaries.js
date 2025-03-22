@@ -1,14 +1,18 @@
 export default function makeCreateComment({ Comentario }) {
     return async function createComment({ comentario, idAdmin, idTicket }) { // Cambiado a idAdmin
       try {
-        console.log("hola");
+        console.log("comentario", comentario);
+        console.log("idAdmin", idAdmin);
+        console.log("idTicket", idTicket);
         
         const newComment = await Comentario.create({
             
             comentario,
-            idAdmin, // Cambiado de id_user a idAdmin
             id_ticket: idTicket,
+            idAdmin, // Cambiado de id_user a idAdmin
+            
         });
+
   
         return {
           error: false,

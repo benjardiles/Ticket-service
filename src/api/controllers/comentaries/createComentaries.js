@@ -4,10 +4,10 @@ import Comentario from '../../../models/comentario.model';
 const createComment = makeCreateComment({ Comentario });
 
 export default async (req, res) => {
-    const { comentario, id_ticket: idTicket, id_user: idUser } = req.body;
+    const { comentario, idAdmin, idTicket} = req.body;
 
     try {
-        const result = await createComment({ comentario, idUser, idTicket });
+        const result = await createComment({ comentario, idAdmin, idTicket });
 
         return res.status(result.error ? 400 : 200).send(result);
     } catch (error) {
