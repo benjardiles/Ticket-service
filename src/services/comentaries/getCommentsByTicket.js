@@ -1,22 +1,27 @@
-import Comentario from "../../../models/comentario.model";
+export default function makeGetCommentsByTicket({ Comentario }) {
+    return async function getCommentsByTicket({ idTicket }) {
+        try {
+            const comentarios = await Comentario.getComentariosByTicket(idTicket);
 
-export default async function getCommentsByTicket(idTicket) {
-    try {
-        const comentarios = await Comentario.findAll({
-            where: { id_ticket: idTicket },
-            order: [["createdAt", "ASC"]],
-        });
+            if (!comentarios || comentarios.length === 0) {
+                return {
+                    error: false,
+                    message: "No comments found for this ticket.",
+                    data: [],
+                };
+            }
 
-        return {
-            error: false,
-            message: "Comments retrieved successfully",
-            data: comentarios,
-        };
-    } catch (error) {
-        console.error("Error fetching comments:", error);
-        return {
-            error: true,
-            message: "An error occurred while retrieving comments",
-        };
-    }
+            return {
+                error: false,
+                message: "Comments retrieved successfully.",
+                data: comentarios,
+            };
+        } catch (error) {
+            console.error("Error in getCommentsByTicket service:", error);
+            return {
+                error: true,
+                message: "An error occurred while retrieving comments.",
+            };
+        }
+    };
 }

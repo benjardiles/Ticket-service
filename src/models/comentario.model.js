@@ -1,49 +1,49 @@
 import db from '../config/db';
-import { up } from '../migrations/20250306171324-create-admin';
 
-const Comentario = db.sequelize.define('comentario', {
+const Comentario = db.sequelize.define(
+  'comentario',
+  {
     id_comentario: {
-        type: db.DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: db.DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     comentario: {
-        type: db.DataTypes.TEXT,
-        allowNull: false,
+      type: db.DataTypes.TEXT,
+      allowNull: false,
     },
-    id_user: {
-        type: db.DataTypes.STRING,
+    idAdmin: { // Cambiado de id_user a idAdmin
+      field: 'id_admin', // Asegúrate de que este campo se mapee correctamente en la base de datos
+      type: db.DataTypes.STRING, // Cambiado a STRING para VARCHAR
+      allowNull: false,
     },
     id_ticket: {
-        type: db.DataTypes.STRING,
+      field: 'id_ticket',
+      type: db.DataTypes.INTEGER,
+      allowNull: false,
     },
     createdAt: {
-        field: 'created_at',
-        type: db.DataTypes.DATE,
+      field: 'created_at',
+      type: db.DataTypes.DATE,
+      allowNull: false,
     },
     updatedAt: {
-        field: 'updated_at',
-        type: db.DataTypes.DATE,
+      field: 'updated_at',
+      type: db.DataTypes.DATE,
+      allowNull: true,
     },
     deletedAt: {
-        field: 'deleted_at',
-        type: db.DataTypes.DATE,
+      field: 'deleted_at',
+      type: db.DataTypes.DATE,
+      allowNull: true,
     },
-}, {
-    tableName: 'comentario',  // ⬅️ Esto evita que Sequelize intente usar updatedAt y createdAt
-    underscored: true,  // ⬅️ Úsalo si tus columnas están en snake_case
-});
-
-Comentario.createComentario = async ({ comentario, idUser, idTicket }) =>
-    Comentario.create({
-        comentario,
-        id_user: idUser,
-        id_ticket: idTicket,
-    });
-
-Comentario.getComentariosByTicket = async (idTicket) =>
-    Comentario.findAll({
-        where: { id_ticket: idTicket },
-    });
+  },
+  {
+    tableName: 'comentario',
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+  }
+);
 
 export default Comentario;
